@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+   <section>
+      <div class="container" id="screen">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button id="minus-btn" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="phn-input" type="text" class="form-control text-center" value="1">
+                           <button id="pls-btn" class="btn btn-default"><i class="fas fa-plus"></i> </button>
+                        </div>
+                        <h5>$ <span id="current-amount">1219</span> </h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button id="caseMinus-btn" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="case-input" type="text" class="form-control text-center" value="1">
+                           <button id="casePls-btn" class="btn btn-default"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$<span id="caseCurrent-amount">59</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:(5%)</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$ <span id="sub-total">1,278.00</span></h5>
+                        <h5>$ <span id="total-tax">63.90</span></h5>
+                        <h5>$ <span id="total-figure">1341.9</span></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button id="check-out" type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+  
+
+   <script>
+
+     
+      //  phone-plus button handler
+
+      const plsButton = document.getElementById("pls-btn");
+      plsButton.addEventListener("click", function () {
+
+         const totalInput = PlsPhnAmount("phn-input")
+         const totalPhnAmount = totalInput * 1219;
+         document.getElementById("current-amount").innerText = totalPhnAmount;
+         const subFigure = getSubTotal();
+         const totalTax = taxFixed();
+         const TotalFigure = getTotalFigure();
+
+      })
+
+      //case-plus button handler
+
+      const caseButton = document.getElementById("casePls-btn");
+      caseButton.addEventListener("click", function () {
+
+         const totalCaseInput = PlsPhnAmount("case-input")
+         const totalCaseAmount = totalCaseInput * 59;
+         document.getElementById("caseCurrent-amount").innerText = totalCaseAmount;
+         const subFigure = getSubTotal();
+         const totalTax = taxFixed();
+         const TotalFigure = getTotalFigure();
+      })
+
+
+
+      //mobile minus button handler
+
+      const minusBtn = document.getElementById("minus-btn");
+      minusBtn.addEventListener("click", function () {
+
+         const totalMinusInput = minusPhnAmount("phn-input")
+         const totalMinusAmount = totalMinusInput * 1219;
+         document.getElementById("current-amount").innerText = totalMinusAmount;
+         const subFigure = getSubTotal();
+         const totalTax = taxFixed();
+         const TotalFigure = getTotalFigure();
+      });
+
+      //Case minus button handler
+      const caseMinusBtn = document.getElementById("caseMinus-btn");
+      caseMinusBtn.addEventListener("click", function () {
+
+         const totalMinusInput = minusPhnAmount("case-input")
+         const totalMinusAmount = totalMinusInput * 59;
+         document.getElementById("caseCurrent-amount").innerText = totalMinusAmount;
+         const subFigure = getSubTotal();
+         const totalTax = taxFixed();
+         const TotalFigure = getTotalFigure();
+      });
+
+      function PlsPhnAmount(id) {
+         const phnInputNumber = GetInputNumber(id)
+         const totalPhnInput = phnInputNumber + 1;
+         document.getElementById(id).value = totalPhnInput;
+
+         return totalPhnInput;
+      }
+
+
+      function minusPhnAmount(id) {
+
+         const phnInputNumber = GetInputNumber(id)
+         const totalMinusInput = phnInputNumber - 1;
+         if (totalMinusInput >= 0) {
+            console.log("totalMinusInput")
+         }
+         else {
+            return 0;
+         }
+
+         document.getElementById(id).value = totalMinusInput;
+
+         return totalMinusInput;
+      }
+
+
+      function getSubTotal() {
+         const phonePrice = document.getElementById("current-amount").innerText;
+         const phonePriceNumber = parseFloat(phonePrice);
+         const casePrice = document.getElementById("caseCurrent-amount").innerText;
+         const casePriceNumber = parseFloat(casePrice);
+         const totalSubFigure = phonePriceNumber + casePriceNumber;
+
+         document.getElementById("sub-total").innerText = totalSubFigure;
+
+         return totalSubFigure;
+
+      }
+
+      function taxFixed() {
+         const subTtl = document.getElementById("sub-total").innerText;
+         const subTtlNumber = parseFloat(subTtl);
+         const taxWill = (subTtlNumber / 100) * 5
+         const totalTax = taxWill.toFixed(2);
+         document.getElementById("total-tax").innerText = totalTax;
+
+         return totalTax;
+
+      }
+
+      function getTotalFigure() {
+
+         const subValue = document.getElementById("sub-total").innerText;
+         const subValueNumber = parseFloat(subValue);
+         const taxValue = document.getElementById("total-tax").innerText;
+         const taxValueNumber = parseFloat(taxValue);
+         const TotalFigure = subValueNumber + taxValueNumber;
+         document.getElementById("total-figure").innerText = TotalFigure;
+         return TotalFigure;
+
+      }
+
+
+      function GetInputNumber(id) {
+         const phnInput = document.getElementById(id).value;
+         const phnInputNumber = parseFloat(phnInput);
+
+         return phnInputNumber;
+      }
+
+   </script>
+
+
+
+
+</body>
+
+</html>
