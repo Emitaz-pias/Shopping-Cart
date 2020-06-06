@@ -9,6 +9,7 @@
    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
    <link href="style.css" rel="stylesheet">
 </head>
+
 <body>
 
    <section>
@@ -24,11 +25,11 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button id="minus-btn" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <button id="phoneminus-btn" class="btn btn-default"><i class="fas fa-minus"></i></button>
                            <input id="phn-input" type="text" class="form-control text-center" value="1">
-                           <button id="pls-btn" class="btn btn-default"><i class="fas fa-plus"></i> </button>
+                           <button id="phoneplus-btn" class="btn btn-default"><i class="fas fa-plus"></i> </button>
                         </div>
-                        <h5>$ <span id="current-amount">1219</span> </h5>
+                        <h5>$ <span id="single-phn-price">1219</span> </h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -42,12 +43,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button id="caseMinus-btn" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <button id="caseminus-btn" class="btn btn-default"><i class="fas fa-minus"></i></button>
                            <input id="case-input" type="text" class="form-control text-center" value="1">
-                           <button id="casePls-btn" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="caseplus-btn" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$<span id="caseCurrent-amount">59</span></h5>
+                        <h5>$<span id="single-case-price">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -63,9 +64,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$ <span id="sub-total">1,278.00</span></h5>
+                        <h5>$ <span id="product-price-total">1278.00</span></h5>
                         <h5>$ <span id="total-tax">63.90</span></h5>
-                        <h5>$ <span id="total-figure">1341.9</span></h5>
+                        <h5>$ <span id="ultimate-total">1341.9</span></h5>
                      </div>
                   </div>
                </div>
@@ -77,140 +78,155 @@
       </div>
    </section>
 
-  
-
    <script>
-
-     
-      //  phone-plus button handler
-
-      const plsButton = document.getElementById("pls-btn");
-      plsButton.addEventListener("click", function () {
-
-         const totalInput = PlsPhnAmount("phn-input")
-         const totalPhnAmount = totalInput * 1219;
-         document.getElementById("current-amount").innerText = totalPhnAmount;
-         const subFigure = getSubTotal();
-         const totalTax = taxFixed();
-         const TotalFigure = getTotalFigure();
-
-      })
-
-      //case-plus button handler
-
-      const caseButton = document.getElementById("casePls-btn");
-      caseButton.addEventListener("click", function () {
-
-         const totalCaseInput = PlsPhnAmount("case-input")
-         const totalCaseAmount = totalCaseInput * 59;
-         document.getElementById("caseCurrent-amount").innerText = totalCaseAmount;
-         const subFigure = getSubTotal();
-         const totalTax = taxFixed();
-         const TotalFigure = getTotalFigure();
-      })
-
-
-
-      //mobile minus button handler
-
-      const minusBtn = document.getElementById("minus-btn");
-      minusBtn.addEventListener("click", function () {
-
-         const totalMinusInput = minusPhnAmount("phn-input")
-         const totalMinusAmount = totalMinusInput * 1219;
-         document.getElementById("current-amount").innerText = totalMinusAmount;
-         const subFigure = getSubTotal();
-         const totalTax = taxFixed();
-         const TotalFigure = getTotalFigure();
-      });
-
-      //Case minus button handler
-      const caseMinusBtn = document.getElementById("caseMinus-btn");
-      caseMinusBtn.addEventListener("click", function () {
-
-         const totalMinusInput = minusPhnAmount("case-input")
-         const totalMinusAmount = totalMinusInput * 59;
-         document.getElementById("caseCurrent-amount").innerText = totalMinusAmount;
-         const subFigure = getSubTotal();
-         const totalTax = taxFixed();
-         const TotalFigure = getTotalFigure();
-      });
-
-      function PlsPhnAmount(id) {
-         const phnInputNumber = GetInputNumber(id)
-         const totalPhnInput = phnInputNumber + 1;
-         document.getElementById(id).value = totalPhnInput;
-
-         return totalPhnInput;
+      //phones plus button handler
+      const plusButton = document.getElementById('phoneplus-btn');
+      plusButton.addEventListener('click', phoneplus = () => {
+         const quantityIncremator = productQuantityAdder('phn-input');
+         const priceAddition = priceAdderPhone('single-phn-price');
+         const updatation = subTotalAdderPhone('product-price-total');
+         const taxAdditon = taxSubmitor('total-tax');
+         const grandTotalSubmission = grandTotalSubmitor();
       }
-
-
-      function minusPhnAmount(id) {
-
-         const phnInputNumber = GetInputNumber(id)
-         const totalMinusInput = phnInputNumber - 1;
-         if (totalMinusInput >= 0) {
-            console.log("totalMinusInput")
+      )
+      //phones minus button handler 
+      const minusButton = document.getElementById('phoneminus-btn');
+      minusButton.addEventListener('click', phoneminus = () => {
+         const descrementInput = productQuantitySubstructor('phn-input');
+         const priceSubstruction = priceSubstructorPhone('single-phn-price');
+         const updatation = subTotalSubstructoPhone('product-price-total');
+         const tax = taxSubmitor('total-tax');
+         const grandTotalSubmission = grandTotalSubmitor();
+      }
+      )
+      //case plus button handler
+      const casePlusButton = document.getElementById('caseplus-btn');
+      casePlusButton.addEventListener('click', caseplus = () => {
+         const quantityIncremator = productQuantityAdder('case-input');
+         const priceAddition = priceAdderCase('single-case-price');
+         const updatation = subTotalAdderCase('product-price-total');
+         const tax = taxSubmitor('total-tax');
+         const grandTotalSubmission = grandTotalSubmitor();
+      })
+      //case minus button handler
+      const caseMinusButton = document.getElementById('caseminus-btn');
+      caseMinusButton.addEventListener('click', caseminus = () => {
+         const quantityDiscremator = productQuantitySubstructor('case-input');
+         const priceSubstruction = priceSubstructorCase('single-case-price');
+         const updatation = subTotalSubstructoCase('product-price-total');
+         const tax = taxSubmitor('total-tax');
+         const grandTotalSubmission = grandTotalSubmitor();
+      })
+      //input number (qty) collection
+   quantityDetection = (id) => {
+         const finder = document.getElementById(id).value;
+         const converter = parseFloat(finder);
+         return converter;
+      }
+      // innerText(price)Collecton
+      innerTextDetection = (id) => {
+         const primaryStage = document.getElementById(id).innerText;
+         const useableStage = parseFloat(primaryStage);
+         return useableStage ;
+      }      
+      // quantity incremator
+      productQuantityAdder = (id) => {
+         const detectQuantity = quantityDetection(id)
+         const inrementQuantity = detectQuantity + 1;
+         document.getElementById(id).value = inrementQuantity;
+      }
+      // quantity descremator
+      productQuantitySubstructor = (id) => {
+         const inputDetection = quantityDetection(id);
+         if (inputDetection >= 1) {
+            const descremantInput = inputDetection - 1;
+            document.getElementById(id).value = descremantInput;
+         } else {
+            return 1;
          }
-         else {
+      }
+      // price addition for phone
+      priceAdderPhone = (id) => {
+         const originalPrice = innerTextDetection(id);
+         const changedPrice = originalPrice + 1219;
+         document.getElementById(id).innerText = changedPrice;
+      }
+      // price substruction for phone 
+      priceSubstructorPhone = (id) => {
+         const originalPrice = innerTextDetection(id);
+         if (originalPrice >= 1219) {
+            const changedPrice = originalPrice - 1219;
+            document.getElementById(id).innerText = changedPrice;
+         } else {
             return 0;
          }
-
-         document.getElementById(id).value = totalMinusInput;
-
-         return totalMinusInput;
       }
-
-
-      function getSubTotal() {
-         const phonePrice = document.getElementById("current-amount").innerText;
-         const phonePriceNumber = parseFloat(phonePrice);
-         const casePrice = document.getElementById("caseCurrent-amount").innerText;
-         const casePriceNumber = parseFloat(casePrice);
-         const totalSubFigure = phonePriceNumber + casePriceNumber;
-
-         document.getElementById("sub-total").innerText = totalSubFigure;
-
-         return totalSubFigure;
-
+      //price additon for case
+      priceAdderCase = (id) => {
+         const originalPrice = innerTextDetection(id);
+         const changedPrice = originalPrice + 59;
+         document.getElementById(id).innerText = changedPrice;
       }
-
-      function taxFixed() {
-         const subTtl = document.getElementById("sub-total").innerText;
-         const subTtlNumber = parseFloat(subTtl);
-         const taxWill = (subTtlNumber / 100) * 5
-         const totalTax = taxWill.toFixed(2);
-         document.getElementById("total-tax").innerText = totalTax;
-
-         return totalTax;
-
+      //price substruction for case
+      priceSubstructorCase = (id) => {
+         const originalPrice = innerTextDetection(id);
+         if (originalPrice >= 59) {
+            const changedPrice = originalPrice - 59;
+            document.getElementById(id).innerText = changedPrice;
+         } else {
+            return 0;
+         }
       }
-
-      function getTotalFigure() {
-
-         const subValue = document.getElementById("sub-total").innerText;
-         const subValueNumber = parseFloat(subValue);
-         const taxValue = document.getElementById("total-tax").innerText;
-         const taxValueNumber = parseFloat(taxValue);
-         const TotalFigure = subValueNumber + taxValueNumber;
-         document.getElementById("total-figure").innerText = TotalFigure;
-         return TotalFigure;
-
+      // subTotal adders
+     subTotalAdderPhone = (id) => {
+         const detectSubTotal = innerTextDetection(id);
+         const changeSubTotal = detectSubTotal + 1219;
+         document.getElementById(id).innerText = changeSubTotal;
+         return detectSubTotal;
       }
-
-
-      function GetInputNumber(id) {
-         const phnInput = document.getElementById(id).value;
-         const phnInputNumber = parseFloat(phnInput);
-
-         return phnInputNumber;
+     subTotalAdderCase = (id) => {
+         const detectSubTotal = innerTextDetection(id);
+         const changeSubTotal = detectSubTotal + 59
+         document.getElementById(id).innerText = changeSubTotal;
+         return detectSubTotal;
       }
+      //subTotals substructors
+      subTotalSubstructoPhone = (id) => {
+         const detectPrice = innerTextDetection(id);
+         if (detectPrice>1) {
+            const changeSubTotal = detectPrice - 1219;
+         document.getElementById(id).innerText = changeSubTotal
+         return changeSubTotal;            
+         } else {
+            return document.getElementById('product-price-total').innerText = 0;
+         }  
+      }
+      subTotalSubstructoCase = (id) => {
+         const detectPrice = innerTextDetection(id);
+         if (detectPrice==0) {
+            return document.getElementById('product-price-total').innerText = 0;
+         } else {
+         const changeSubTotal = detectPrice - 59;
+         document.getElementById(id).innerText = changeSubTotal
+         return changeSubTotal;  
+         }        
+      }
+      // tax submission
+      taxSubmitor = (id) => {
+         const tax = innerTextDetection('product-price-total') * (5 / 100);
+         const changeTax = tax.toFixed(2);
+         document.getElementById(id).innerText = changeTax;
+      }
+      //grand total submission
+      grandTotalSubmitor = () => {
+         const subTotal = innerTextDetection('product-price-total');
+         const tax = innerTextDetection('total-tax');
+         const finalTax = subTotal + tax;
+         document.getElementById('ultimate-total').innerText = finalTax;
+      }
+      // the end..
 
    </script>
-
-
-
-
 </body>
 
 </html>
